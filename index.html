@@ -371,32 +371,21 @@
   .chapter-nav a:hover .cn-title{color:var(--accent);}
 </style>
 <style>
-  .site-topbar{
-    background:var(--paper); border-bottom:1px solid var(--line);
-    position:sticky; top:0; z-index:20;
-    padding:14px 24px calc(14px + env(safe-area-inset-top,0px));
-  }
+  .site-topbar{background:var(--paper); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20; padding:14px 24px calc(14px + env(safe-area-inset-top,0px));}
   .site-topbar-inner{max-width:1040px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; font-family:'Inter',sans-serif;}
   .site-topbar-inner a{font-size:0.86rem; color:var(--ink-dim); font-weight:500; text-decoration:none;}
   .site-topbar-inner a:hover{color:var(--accent);}
   .site-topbar-title{font-family:'Source Serif 4',serif; font-weight:600; font-size:0.95rem; color:var(--ink);}
   .site-nav-links{display:flex; gap:20px;}
-  .section-divider{
-    max-width:1040px; margin:60px auto 0; padding:0 24px;
-    display:flex; align-items:center; gap:16px;
-  }
+  .section-divider{max-width:1040px; margin:60px auto 0; padding:0 24px; display:flex; align-items:center; gap:16px;}
   .section-divider .line{flex:1; height:1px; background:var(--line);}
   .section-divider .label{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink-faint); white-space:nowrap;}
-  .back-to-top{
-    max-width:720px; margin:0 auto; padding:30px 24px 10px; text-align:right;
-    font-family:'Inter',sans-serif; font-size:0.85rem;
-  }
+  .back-to-top{max-width:720px; margin:0 auto; padding:30px 24px 10px; text-align:right; font-family:'Inter',sans-serif; font-size:0.85rem;}
   .back-to-top a{color:var(--accent); font-weight:600; text-decoration:none;}
   .back-to-top a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
-
 <div class="site-topbar">
   <div class="site-topbar-inner">
     <span class="site-topbar-title">Quasi-Periodicity <span style="color:var(--ink-faint); font-weight:400;">· an interactive introduction</span></span>
@@ -414,7 +403,6 @@
   <h1>Quasi-Periodicity: Theory, Level Sets, and the Search for U</h1>
   <p class="lede" style="margin:0 auto 6px; text-align:center;">A chapter-by-chapter introduction built from the research group's own working sessions</p>
   <p class="lede" style="margin:0 auto; text-align:center; font-size:0.95rem; color:var(--ink-faint);">Research direction: Professor Roberto De Leo · Howard University</p>
-
   <div style="max-width:62ch; margin:28px auto 0; text-align:left; font-size:1.02rem; color:var(--ink-dim); background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 26px;">
     <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--accent); display:block; margin-bottom:10px;">Abstract</span>
     This monograph introduces quasi-periodic functions from first principles, for readers with no more
@@ -425,10 +413,8 @@
     is paired with a working, hands-on simulation rather than a static figure.
   </div>
 </div>
-
 <div style="max-width:680px; margin:48px auto 60px; padding:0 24px;">
   <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-faint); margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:12px;">Table of Contents</div>
-
   <div class="chapter active">
     <a href="#chapter-1" class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px; border-radius:10px;">
       <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent); font-weight:500; min-width:22px;">1</span>
@@ -440,10 +426,10 @@
       <li style="margin:7px 0;"><a href="#ch1-polynomial" style="color:var(--ink-dim);">The polynomial we'll use</a></li>
       <li style="margin:7px 0;"><a href="#ch1-experiment" style="color:var(--ink-dim);">The experiment</a></li>
       <li style="margin:7px 0;"><a href="#ch1-fractal" style="color:var(--ink-dim);">Why the boundary is a fractal</a></li>
+      <li style="margin:7px 0;"><a href="#ch1-scaling" style="color:var(--ink-dim);">Watching the complexity scale up</a></li>
       <li style="margin:7px 0;"><a href="#ch1-why-start" style="color:var(--ink-dim);">Why we start here</a></li>
     </ul>
   </div>
-
   <div class="chapter active">
     <a href="#chapter-2" class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px; border-radius:10px;">
       <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent); font-weight:500; min-width:22px;">2</span>
@@ -458,7 +444,6 @@
       <li style="margin:7px 0;"><a href="#ch2-construction" style="color:var(--ink-dim);">2.5 — A fully constructive example</a></li>
     </ul>
   </div>
-
   <div class="chapter upcoming">
     <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
       <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">3</span>
@@ -557,6 +542,18 @@
   </p>
   <div class="eq-block">$$z_{n+1} = z_n - \frac{z_n^3-1}{3z_n^2}$$</div>
 
+  <div class="callout">
+    <span class="k">Why this algorithm matters outside the classroom</span>
+    Newton's method isn't just a textbook exercise — it's one of the most-used algorithms in applied
+    computing. Your calculator or phone computes square roots and cube roots with it. Structural
+    engineers use it to solve the nonlinear equations that come from stress and load calculations on
+    real buildings and bridges. Computer graphics software uses it to find where a light ray intersects
+    a curved surface when rendering a 3D scene. Spacecraft trajectory software uses it to solve for
+    orbital parameters that have no clean algebraic formula. Every one of these applications depends on
+    the same basic fact we're about to explore: the method usually converges fast and reliably — but
+    exactly which answer it converges to, starting from a given guess, can be far stranger than it looks.
+  </div>
+
   <h2 id="ch1-experiment">The experiment</h2>
   <p>
     Now here's the question that turns this into something worth looking at: take
@@ -578,9 +575,9 @@
   <div class="demo-card">
     <div class="demo-stage">
       <div class="canvas-wrap">
-        <canvas id="c1Plot" width="900" height="640"></canvas>
-        <div class="hint" id="c1Hint">Click to trace a point's convergence path.<br>Scroll to zoom, drag to pan.</div>
-        <div class="trace-panel" id="c1TracePanel"></div>
+        <canvas id="nf-plot" width="900" height="640"></canvas>
+        <div class="hint" id="nf-hint">Click to trace a point's convergence path.<br>Scroll to zoom, drag to pan.</div>
+        <div class="trace-panel" id="nf-tracePanel"></div>
       </div>
       <div class="demo-panel">
         <div class="root-key">
@@ -590,26 +587,26 @@
         </div>
         <div class="divider"></div>
         <div class="field">
-          <label>Max iterations <span class="val" id="c1IterVal">30</span></label>
-          <input type="range" id="c1IterSlider" min="4" max="60" step="1" value="30">
+          <label>Max iterations <span class="val" id="nf-iterVal">30</span></label>
+          <input type="range" id="nf-iterSlider" min="4" max="60" step="1" value="30">
         </div>
         <div class="field">
-          <label>Zoom <span class="val" id="c1ZoomVal">1.0×</span></label>
-          <div class="zoom-readout" id="c1ViewReadout">center: (0.00, 0.00)</div>
+          <label>Zoom <span class="val" id="nf-zoomVal">1.0×</span></label>
+          <div class="zoom-readout" id="nf-viewReadout">center: (0.00, 0.00)</div>
         </div>
         <div class="btn-row">
-          <button class="btn" id="c1ZoomInBtn">Zoom in</button>
-          <button class="btn" id="c1ZoomOutBtn">Zoom out</button>
+          <button class="btn" id="nf-zoomInBtn">Zoom in</button>
+          <button class="btn" id="nf-zoomOutBtn">Zoom out</button>
         </div>
-        <button class="btn" id="c1ResetBtn">Reset view</button>
+        <button class="btn" id="nf-resetBtn">Reset view</button>
         <div class="divider"></div>
         <label style="font-size:0.82rem; color:var(--ink-dim);">Color mode</label>
         <div class="toggle-row">
-          <button id="c1ModeBasin" class="active">By root</button>
-          <button id="c1ModeSpeed">By speed</button>
+          <button id="nf-modeBasin" class="active">By root</button>
+          <button id="nf-modeSpeed">By speed</button>
         </div>
         <div class="divider"></div>
-        <button class="btn primary" id="c1AutoZoomBtn">Auto-zoom into the boundary</button>
+        <button class="btn primary" id="nf-autoZoomBtn">Auto-zoom into the boundary</button>
       </div>
     </div>
   </div>
@@ -646,6 +643,56 @@
     entirely.
   </p>
 
+  <h2 id="ch1-scaling">Watching the complexity scale up</h2>
+  <p>
+    Everything so far used $z^3-1$, with its 3 roots. A natural question: does the picture get more or
+    less tangled as the equation gets more roots? Try $z^4-1$ (4 roots), $z^5-1$ (5 roots), and beyond —
+    same algorithm, same idea, just more roots competing for every starting guess.
+  </p>
+</article>
+
+<div class="breakout">
+  <div class="demo-card">
+    <div class="demo-stage">
+      <div class="canvas-wrap">
+        <canvas id="mr-plot" width="900" height="560"></canvas>
+        <div class="hint" id="mr-hint">Click to trace a convergence path.<br>Scroll to zoom, drag to pan.</div>
+        <div class="trace-panel" id="mr-tracePanel"></div>
+      </div>
+      <div class="demo-panel">
+        <label style="font-size:0.82rem; color:var(--ink-dim); font-family:'Inter',sans-serif;">Equation: $z^n - 1 = 0$</label>
+        <div class="toggle-row" id="mr-nButtons" style="flex-wrap:wrap;">
+          <button data-n="3" class="active">n=3</button>
+          <button data-n="4">n=4</button>
+          <button data-n="5">n=5</button>
+          <button data-n="6">n=6</button>
+          <button data-n="7">n=7</button>
+          <button data-n="8">n=8</button>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Max iterations <span class="val" id="mr-iterVal">30</span></label>
+          <input type="range" id="mr-iterSlider" min="4" max="60" step="1" value="30">
+        </div>
+        <div class="zoom-readout" id="mr-viewReadout">zoom: 1.0×</div>
+        <div class="btn-row">
+          <button class="btn" id="mr-resetBtn">Reset view</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fig-caption"><b>Figure 1.2</b> — The same algorithm applied to $z^n-1$ for different $n$. More roots means more colors competing for the same territory — watch how much finer and more tangled the boundary becomes as $n$ climbs, even though nothing about the method itself changed.</div>
+</div>
+
+<article>
+  <p>
+    Notice that the overall character never changes — still self-similar, still no smooth boundary
+    anywhere — but the boundary's intricacy visibly increases with each additional root. This is a useful
+    thing to keep in your back pocket for later: adding more "competing outcomes" to a simple rule tends
+    to make its boundary behavior richer, not just bigger. The same pattern shows up, in a completely
+    different setting, in the final research algorithm's own fractal "island map."
+  </p>
+
   <h2 id="ch1-why-start">Why we start here</h2>
   <p>
     This example is deliberately the first thing in the whole project, for a reason worth stating
@@ -673,6 +720,13 @@
 <article>
 
   <h2 id="ch2-compact">2.1 — Compactness, made precise</h2>
+  <p>
+    Picture the surface of a basketball. No matter how you wander across it, you can never escape it or
+    run off to infinity — it curves back on itself everywhere. Now picture an endless flat floor instead:
+    you really can walk forever in one direction and never come back or hit an edge. That difference —
+    "nowhere to escape to" versus "infinity is always available" — is the entire idea this section makes
+    precise.
+  </p>
   <p>A set $K$ is <strong>compact</strong> if it is both:</p>
   <div class="eq-block">
     $$\textbf{closed} \;(\text{contains all its limit points}) \quad\text{and}\quad \textbf{bounded} \;(\text{fits inside some ball of finite radius})$$
@@ -707,6 +761,17 @@
     This is the rigorous version of "on a compact space, there's nowhere to hide."
   </div>
 
+  <div class="callout">
+    <span class="k">A real-world version of this guarantee</span>
+    Suppose a wildlife tracker records a GPS ping from a tagged animal confined to a nature reserve,
+    once per hour, forever. The reserve is a bounded region, so no matter how the animal wanders, those
+    recorded positions are <strong>guaranteed</strong> to pile up arbitrarily close to at least one spot
+    in the reserve — the animal cannot simply scatter its pings further and further apart forever,
+    because there's nowhere in the reserve for it to "run off to." The exact same guarantee fails the
+    moment the region is unbounded (say, a bird that could in principle fly anywhere on Earth in a
+    straight line) — there, the positions really can march outward forever with no pile-up point at all.
+  </div>
+
   <h3>Four worked cases</h3>
   <p>How many limit points can one sequence have?</p>
 
@@ -731,6 +796,37 @@
     </div>
   </div>
 
+  <p>
+    Each of these four behaviors is worth actually watching happen, point by point, rather than just
+    reading as a finished list.
+  </p>
+</article>
+
+<div class="breakout">
+  <div class="demo-card">
+    <div class="demo-stage">
+      <div class="canvas-wrap">
+        <canvas id="lp-plot" width="900" height="260"></canvas>
+      </div>
+      <div class="demo-panel">
+        <label style="font-size:0.82rem; color:var(--ink-dim); font-family:'Inter',sans-serif;">Sequence type</label>
+        <div class="toggle-row" id="lp-typeButtons" style="flex-wrap:wrap;">
+          <button data-type="one" class="active">One limit point</button>
+          <button data-type="two">Two limit points</button>
+          <button data-type="dense">Dense (uncountable)</button>
+          <button data-type="none">None (diverges)</button>
+        </div>
+        <div class="divider"></div>
+        <div class="stat">Terms plotted <b id="lp-countVal">0</b></div>
+        <button class="btn" id="lp-playBtn">Play sequence</button>
+        <button class="btn secondary" id="lp-resetBtn">Reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="fig-caption"><b>Figure 2.1</b> — Watch each sequence type unfold on the number line, term by term. The pale trail behind each point shows where the sequence has already been; limit points are exactly the spots it keeps returning arbitrarily close to.</div>
+</div>
+
+<article>
   <h2 id="ch2-countable">2.3 — Countable vs. uncountable</h2>
   <div class="eq-block">
     $$\text{Countable} = \text{listable as a sequence} = \text{1-to-1 with } \mathbb{N}=\{1,2,3,\dots\}$$
@@ -744,6 +840,33 @@
     so $r^*$ isn't on the list at all, contradicting the assumption that the list was complete.
   </p>
 
+  <div class="callout">
+    <span class="k">A real-world picture for "countable but infinite": Hilbert's Hotel</span>
+    Imagine a hotel with infinitely many rooms, numbered 1, 2, 3, … — and every single room is occupied.
+    A new guest arrives. Is there room? Yes: ask the guest in room 1 to move to room 2, the guest in room
+    2 to move to room 3, and so on, forever. Room 1 is now free. This only works because the rooms are
+    <strong>countable</strong> — you can give an exact, finite instruction ("move to the next room
+    number") to every guest at once. Try the same trick below.
+  </div>
+</article>
+
+<div class="breakout">
+  <div class="demo-card">
+    <div class="demo-stage" style="grid-template-columns:1fr;">
+      <div>
+        <div id="hh-rooms" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; padding:10px 0;"></div>
+        <div id="hh-newGuest" style="text-align:center; font-family:'Inter',sans-serif; font-size:0.95rem; color:var(--ink-dim); min-height:1.6em; margin-top:6px;"></div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;">
+      <button class="btn" id="hh-addBtn">A new guest arrives</button>
+      <button class="btn secondary" id="hh-resetBtn">Reset hotel</button>
+    </div>
+  </div>
+  <div class="fig-caption"><b>Figure 2.2</b> — Every room shifts up by one, freeing room 1, every time. No room number is ever "left over" — this is exactly what being countably infinite means in practice.</div>
+</div>
+
+<article>
   <h2 id="ch2-max-theorem">2.4 — The payoff: a maximum, guaranteed</h2>
   <div class="proof-box">
     <div class="proof-label">Theorem</div>
@@ -761,6 +884,18 @@
     </p>
     <p class="qed">∎</p>
   </div>
+  <div class="callout">
+    <span class="k">A real, checkable consequence</span>
+    Earth's surface is compact — it's closed (it has no "missing edge" the way an open disk does) and
+    bounded (it's a finite sphere). Temperature, as a function of position on that surface, is continuous.
+    This theorem therefore guarantees, with mathematical certainty, that at any given instant there is a
+    single hottest point on Earth and a single coldest point — not approximately, not "probably," but
+    guaranteed by the same compactness argument above. Meteorologists don't need to search an infinite
+    space hoping a maximum exists somewhere out there; compactness tells them in advance that it must.
+    Contrast this with temperature as a function of altitude above Earth, with no upper limit on
+    altitude — that's a non-compact setup, and nothing guarantees a highest temperature exists at all.
+  </div>
+
   <p>
     <strong>Why this fails on a non-compact set:</strong> the same attempted proof breaks exactly at
     "Bolzano–Weierstrass gives a convergent subsequence" — without boundedness, $(x_n)$ can simply run
@@ -818,7 +953,7 @@
     </div>
     <div class="demo-stage">
       <div class="canvas-wrap">
-        <canvas id="c2Plot" width="900" height="560"></canvas>
+        <canvas id="cc-plot" width="900" height="560"></canvas>
         <div class="legend">
           <div class="row"><span class="sw" style="background:var(--top)"></span>anchor: y = 1</div>
           <div class="row"><span class="sw" style="background:var(--bot)"></span>anchor: y = −1</div>
@@ -826,22 +961,22 @@
         </div>
       </div>
       <div class="demo-panel">
-        <div class="stat">Connectors added <b id="c2CountVal">0</b></div>
-        <div class="stat">Farthest center, xₖ <b id="c2XkVal">—</b></div>
-        <div class="stat">Narrowest width, wₖ <b id="c2WkVal">—</b></div>
-        <div class="stat">Steepness ~ 1/wₖ <b id="c2SteepVal">—</b></div>
-        <div class="derivative-bar"><div class="derivative-fill" id="c2DerivBar"></div></div>
+        <div class="stat">Connectors added <b id="cc-countVal">0</b></div>
+        <div class="stat">Farthest center, xₖ <b id="cc-xkVal">—</b></div>
+        <div class="stat">Narrowest width, wₖ <b id="cc-wkVal">—</b></div>
+        <div class="stat">Steepness ~ 1/wₖ <b id="cc-steepVal">—</b></div>
+        <div class="derivative-bar"><div class="derivative-fill" id="cc-derivBar"></div></div>
         <div class="divider"></div>
-        <button class="btn" id="c2AddBtn">Add next connector</button>
+        <button class="btn" id="cc-addBtn">Add next connector</button>
         <div class="btn-row">
-          <button class="btn secondary" id="c2JumpBtn">Jump to latest</button>
-          <button class="btn secondary" id="c2ResetViewBtn">View all</button>
+          <button class="btn secondary" id="cc-jumpBtn">Jump to latest</button>
+          <button class="btn secondary" id="cc-resetViewBtn">View all</button>
         </div>
-        <button class="btn secondary" id="c2ResetBtn">Reset construction</button>
+        <button class="btn secondary" id="cc-resetBtn">Reset construction</button>
       </div>
     </div>
   </div>
-  <div class="fig-caption"><b>Figure 2.1</b> — Each connector is asymptotic to both anchor lines, placed farther out and narrower every time. The steepness needed keeps climbing without bound, exactly because the centers keep escaping toward infinity instead of settling anywhere.</div>
+  <div class="fig-caption"><b>Figure 2.3</b> — Each connector is asymptotic to both anchor lines, placed farther out and narrower every time. The steepness needed keeps climbing without bound, exactly because the centers keep escaping toward infinity instead of settling anywhere.</div>
 </div>
 
 <article>
@@ -858,19 +993,18 @@
 <div class="back-to-top" style="padding-bottom:80px;"><a href="#toc">↑ Back to Contents</a></div>
 
 <script>
-
 (function(){
-  const canvas = document.getElementById('c1Plot');
+  const canvas = document.getElementById('nf-plot');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
   const imgData = ctx.createImageData(W,H);
 
-  const iterSlider = document.getElementById('c1IterSlider');
-  const iterVal = document.getElementById('c1IterVal');
-  const zoomVal = document.getElementById('c1ZoomVal');
-  const viewReadout = document.getElementById('c1ViewReadout');
-  const hint = document.getElementById('c1Hint');
-  const tracePanel = document.getElementById('c1TracePanel');
+  const iterSlider = document.getElementById('nf-iterSlider');
+  const iterVal = document.getElementById('nf-iterVal');
+  const zoomVal = document.getElementById('nf-zoomVal');
+  const viewReadout = document.getElementById('nf-viewReadout');
+  const hint = document.getElementById('nf-hint');
+  const tracePanel = document.getElementById('nf-tracePanel');
 
   const roots = [
     {re:1, im:0},
@@ -960,20 +1094,20 @@
 
   iterSlider.addEventListener('input', scheduleRender);
 
-  document.getElementById('c1ModeBasin').addEventListener('click', function(){
+  document.getElementById('nf-modeBasin').addEventListener('click', function(){
     colorMode='basin'; this.classList.add('active');
-    document.getElementById('c1ModeSpeed').classList.remove('active');
+    document.getElementById('nf-modeSpeed').classList.remove('active');
     scheduleRender();
   });
-  document.getElementById('c1ModeSpeed').addEventListener('click', function(){
+  document.getElementById('nf-modeSpeed').addEventListener('click', function(){
     colorMode='speed'; this.classList.add('active');
-    document.getElementById('c1ModeBasin').classList.remove('active');
+    document.getElementById('nf-modeBasin').classList.remove('active');
     scheduleRender();
   });
 
-  document.getElementById('c1ZoomInBtn').addEventListener('click', ()=>{ scale*=0.6; scheduleRender(); });
-  document.getElementById('c1ZoomOutBtn').addEventListener('click', ()=>{ scale/=0.6; scheduleRender(); });
-  document.getElementById('c1ResetBtn').addEventListener('click', ()=>{
+  document.getElementById('nf-zoomInBtn').addEventListener('click', ()=>{ scale*=0.6; scheduleRender(); });
+  document.getElementById('nf-zoomOutBtn').addEventListener('click', ()=>{ scale/=0.6; scheduleRender(); });
+  document.getElementById('nf-resetBtn').addEventListener('click', ()=>{
     centerX=0; centerY=0; scale=1.6; scheduleRender();
   });
 
@@ -1065,7 +1199,7 @@
   }
 
   let autoZoomTimer=null;
-  document.getElementById('c1AutoZoomBtn').addEventListener('click', function(){
+  document.getElementById('nf-autoZoomBtn').addEventListener('click', function(){
     if(autoZoomTimer){ clearInterval(autoZoomTimer); autoZoomTimer=null; this.textContent='Auto-zoom into the boundary'; return; }
     this.textContent='Stop auto-zoom';
     centerX = 0.02; centerY = 0.35;
@@ -1074,27 +1208,222 @@
       scale *= 0.94;
       scheduleRender();
       steps++;
-      if(steps>140){ clearInterval(autoZoomTimer); autoZoomTimer=null; document.getElementById('c1AutoZoomBtn').textContent='Auto-zoom into the boundary'; }
+      if(steps>140){ clearInterval(autoZoomTimer); autoZoomTimer=null; document.getElementById('nf-autoZoomBtn').textContent='Auto-zoom into the boundary'; }
     }, 90);
   });
 
   render();
 })();
-
 </script>
 
 <script>
-
 (function(){
-  const canvas = document.getElementById('c2Plot');
+  const canvas = document.getElementById('mr-plot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const imgData = ctx.createImageData(W,H);
+
+  const iterSlider = document.getElementById('mr-iterSlider');
+  const iterVal = document.getElementById('mr-iterVal');
+  const viewReadout = document.getElementById('mr-viewReadout');
+  const hint = document.getElementById('mr-hint');
+  const tracePanel = document.getElementById('mr-tracePanel');
+  const nButtons = document.querySelectorAll('#mr-nButtons button');
+
+  const palette = [
+    [31,138,112],[201,112,31],[107,79,160],
+    [176,58,58],[47,111,158],[122,138,58],[160,82,122],[92,107,103]
+  ];
+
+  let n = 3;
+  let roots = [];
+  function setRoots(k){
+    roots = [];
+    for(let i=0;i<k;i++){
+      const ang = 2*Math.PI*i/k;
+      roots.push({re:Math.cos(ang), im:Math.sin(ang)});
+    }
+  }
+  setRoots(n);
+
+  let centerX=0, centerY=0, scale=1.6;
+
+  function complexAt(px,py){
+    const x = centerX + (px/W - 0.5) * 2*scale;
+    const y = centerY - (py/H - 0.5) * 2*scale*(H/W);
+    return {re:x, im:y};
+  }
+
+  function cpow(z,k){
+    const r = Math.hypot(z.re,z.im);
+    if(r < 1e-12) return {re:0, im:0};
+    const theta = Math.atan2(z.im,z.re);
+    const rk = Math.pow(r,k);
+    return {re: rk*Math.cos(k*theta), im: rk*Math.sin(k*theta)};
+  }
+
+  function newtonStep(z){
+    const zn = cpow(z,n);
+    const fre = zn.re - 1, fim = zn.im;
+    const zn1 = cpow(z,n-1);
+    const dre = n*zn1.re, dim = n*zn1.im;
+    const denom = dre*dre+dim*dim;
+    if(denom < 1e-14) return z;
+    const qre = (fre*dre+fim*dim)/denom;
+    const qim = (fim*dre-fre*dim)/denom;
+    return {re: z.re-qre, im: z.im-qim};
+  }
+
+  function classify(z0, maxIter){
+    let z = z0;
+    for(let i=0;i<maxIter;i++){
+      z = newtonStep(z);
+      for(let r=0;r<roots.length;r++){
+        const dre=z.re-roots[r].re, dim=z.im-roots[r].im;
+        if(dre*dre+dim*dim < 1e-10) return {root:r, iters:i+1};
+      }
+    }
+    let best=0,bestD=Infinity;
+    for(let r=0;r<roots.length;r++){
+      const dre=z.re-roots[r].re, dim=z.im-roots[r].im;
+      const d=dre*dre+dim*dim;
+      if(d<bestD){bestD=d;best=r;}
+    }
+    return {root:best, iters:maxIter};
+  }
+
+  let renderToken=0;
+  function render(){
+    const myToken = ++renderToken;
+    const maxIter = parseInt(iterSlider.value);
+    iterVal.textContent = maxIter;
+    viewReadout.textContent = 'zoom: '+(1.6/scale).toFixed(1)+'×';
+
+    const data = imgData.data;
+    for(let py=0; py<H; py++){
+      for(let px=0; px<W; px++){
+        const z0 = complexAt(px,py);
+        const {root, iters} = classify(z0, maxIter);
+        const idx=(py*W+px)*4;
+        let [r,g,b] = palette[root % palette.length];
+        const t = 1 - iters/maxIter;
+        const shade = 0.55+0.45*t;
+        r*=shade; g*=shade; b*=shade;
+        data[idx]=r; data[idx+1]=g; data[idx+2]=b; data[idx+3]=255;
+      }
+      if(py%80===0 && myToken!==renderToken) return;
+    }
+    if(myToken!==renderToken) return;
+    ctx.putImageData(imgData,0,0);
+  }
+
+  let queued=false;
+  function scheduleRender(){ if(queued) return; queued=true; requestAnimationFrame(()=>{queued=false; render();}); }
+
+  nButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      nButtons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      n = parseInt(btn.dataset.n);
+      setRoots(n);
+      centerX=0; centerY=0; scale=1.6;
+      tracePanel.classList.remove('show');
+      scheduleRender();
+    });
+  });
+
+  iterSlider.addEventListener('input', scheduleRender);
+  document.getElementById('mr-resetBtn').addEventListener('click', ()=>{
+    centerX=0; centerY=0; scale=1.6; scheduleRender();
+  });
+
+  canvas.addEventListener('wheel', e=>{
+    e.preventDefault();
+    const factor = e.deltaY<0 ? 0.85 : 1/0.85;
+    const rect = canvas.getBoundingClientRect();
+    const px=(e.clientX-rect.left)/rect.width*W, py=(e.clientY-rect.top)/rect.height*H;
+    const zBefore = complexAt(px,py);
+    scale *= factor;
+    const zAfter = complexAt(px,py);
+    centerX += zBefore.re-zAfter.re; centerY += zBefore.im-zAfter.im;
+    scheduleRender();
+  }, {passive:false});
+
+  let pStart=null, dragged=false, dragStart=null;
+  canvas.addEventListener('pointerdown', e=>{
+    pStart={x:e.clientX,y:e.clientY}; dragStart={cx:centerX,cy:centerY}; dragged=false;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', e=>{
+    if(!pStart) return;
+    const dx=e.clientX-pStart.x, dy=e.clientY-pStart.y;
+    if(Math.abs(dx)>4||Math.abs(dy)>4){
+      dragged=true;
+      const rect=canvas.getBoundingClientRect();
+      centerX = dragStart.cx - dx*(2*scale/rect.width);
+      centerY = dragStart.cy + dy*(2*scale*(H/W)/rect.height);
+      scheduleRender();
+    }
+  });
+  canvas.addEventListener('pointerup', e=>{
+    if(!dragged && pStart){
+      const rect=canvas.getBoundingClientRect();
+      const px=(e.clientX-rect.left)/rect.width*W, py=(e.clientY-rect.top)/rect.height*H;
+      traceFrom(px,py);
+    }
+    pStart=null;
+  });
+
+  function traceFrom(px,py){
+    hint.style.display='none';
+    const maxIter = parseInt(iterSlider.value);
+    let z = complexAt(px,py);
+    const path=[{...z}];
+    let conv=-1;
+    for(let i=0;i<maxIter;i++){
+      z = newtonStep(z);
+      path.push({...z});
+      for(let r=0;r<roots.length;r++){
+        const dre=z.re-roots[r].re, dim=z.im-roots[r].im;
+        if(dre*dre+dim*dim<1e-10){conv=r;break;}
+      }
+      if(conv>=0) break;
+    }
+    render();
+    ctx.strokeStyle='rgba(30,42,38,0.9)'; ctx.lineWidth=1.5;
+    path.forEach((p,i)=>{
+      const sx=((p.re-centerX)/(2*scale)+0.5)*W, sy=(0.5-(p.im-centerY)/(2*scale*(H/W)))*H;
+      ctx.fillStyle = i===path.length-1 ? '#1e2a26' : 'rgba(30,42,38,0.55)';
+      ctx.beginPath(); ctx.arc(sx,sy,i===0?4:2.5,0,Math.PI*2); ctx.fill();
+    });
+    ctx.beginPath();
+    path.forEach((p,i)=>{
+      const sx=((p.re-centerX)/(2*scale)+0.5)*W, sy=(0.5-(p.im-centerY)/(2*scale*(H/W)))*H;
+      if(i===0) ctx.moveTo(sx,sy); else ctx.lineTo(sx,sy);
+    });
+    ctx.stroke();
+
+    const hex = ['#1f8a70','#c9701f','#6b4fa0','#b03a3a','#2f6f9e','#7a8a3a','#a0527a','#5c6d67'];
+    tracePanel.innerHTML = '<b>Start:</b> z\u2080='+path[0].re.toFixed(3)+'+'+path[0].im.toFixed(3)+'i &nbsp; <b>Steps:</b> '+(conv>=0?path.length-1:'none')+'<br>'+
+      (conv>=0 ? '<span class="converged" style="background:'+hex[conv%hex.length]+'; color:#fff;">converged to root '+(conv+1)+' of '+n+'</span>' : '');
+    tracePanel.classList.add('show');
+  }
+
+  render();
+})();
+</script>
+
+<script>
+(function(){
+  const canvas = document.getElementById('cc-plot');
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
 
-  const countVal = document.getElementById('c2CountVal');
-  const xkVal = document.getElementById('c2XkVal');
-  const wkVal = document.getElementById('c2WkVal');
-  const steepVal = document.getElementById('c2SteepVal');
-  const derivBar = document.getElementById('c2DerivBar');
+  const countVal = document.getElementById('cc-countVal');
+  const xkVal = document.getElementById('cc-xkVal');
+  const wkVal = document.getElementById('cc-wkVal');
+  const steepVal = document.getElementById('cc-steepVal');
+  const derivBar = document.getElementById('cc-derivBar');
 
   let connectors = [];
   let viewCenterX = 0, viewScale = 6;
@@ -1172,7 +1501,7 @@
     derivBar.style.width = pct+'%';
   }
 
-  document.getElementById('c2AddBtn').addEventListener('click', ()=>{
+  document.getElementById('cc-addBtn').addEventListener('click', ()=>{
     const k = connectors.length+1;
     const xc = 3 + 4*k;
     const w = 1/(1+0.55*k);
@@ -1183,7 +1512,7 @@
     draw();
   });
 
-  document.getElementById('c2JumpBtn').addEventListener('click', ()=>{
+  document.getElementById('cc-jumpBtn').addEventListener('click', ()=>{
     if(connectors.length===0) return;
     const last = connectors[connectors.length-1];
     viewCenterX = last.xc;
@@ -1191,7 +1520,7 @@
     draw();
   });
 
-  document.getElementById('c2ResetViewBtn').addEventListener('click', ()=>{
+  document.getElementById('cc-resetViewBtn').addEventListener('click', ()=>{
     if(connectors.length===0){ viewCenterX=0; viewScale=6; draw(); return; }
     const maxX = connectors[connectors.length-1].xc;
     viewCenterX = maxX/2;
@@ -1199,7 +1528,7 @@
     draw();
   });
 
-  document.getElementById('c2ResetBtn').addEventListener('click', ()=>{
+  document.getElementById('cc-resetBtn').addEventListener('click', ()=>{
     connectors = [];
     viewCenterX = 0; viewScale = 6;
     updateStats();
@@ -1225,7 +1554,153 @@
   updateStats();
   draw();
 })();
+</script>
 
+<script>
+(function(){
+  const canvas = document.getElementById('lp-plot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const countVal = document.getElementById('lp-countVal');
+  const typeButtons = document.querySelectorAll('#lp-typeButtons button');
+
+  let type = 'one';
+  let terms = [];
+  let timer = null;
+  const xmin=-0.3, xmax=1.3;
+  const toPx = x => (x-xmin)/(xmax-xmin)*W;
+
+  // rationals in [0,1] enumerated via Stern-Brocot-ish simple scheme for the "dense" case
+  function denseRationals(limit){
+    const list = [];
+    for(let d=1; d<=30 && list.length<limit; d++){
+      for(let n=0; n<=d; n++){
+        if(list.length>=limit) break;
+        list.push(n/d);
+      }
+    }
+    return list;
+  }
+  let denseList = denseRationals(400);
+
+  function nextTerm(k){
+    if(type==='one') return 1/(k+1);
+    if(type==='two') return (k%2===0) ? 1/(k+2) : 1-1/(k+2);
+    if(type==='dense') return denseList[k % denseList.length];
+    if(type==='none') return 0.05*k; // marches off the right edge -> "escapes"
+    return 0;
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = '#dde1dc'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+    // tick marks at 0 and 1
+    [0,1].forEach(v=>{
+      const x = toPx(v);
+      ctx.beginPath(); ctx.moveTo(x,H/2-8); ctx.lineTo(x,H/2+8); ctx.stroke();
+      ctx.fillStyle = '#5c6d67'; ctx.font = '13px Inter, sans-serif';
+      ctx.fillText(v.toString(), x-4, H/2+28);
+    });
+    terms.forEach((x,i)=>{
+      if(x < xmin-0.2 || x > xmax+0.2) return;
+      const px = toPx(x);
+      const age = terms.length-i;
+      const alpha = Math.max(0.08, 1 - age*0.02);
+      ctx.fillStyle = `rgba(47,111,94,${alpha})`;
+      ctx.beginPath(); ctx.arc(px, H/2, i===terms.length-1?6:3.5, 0, Math.PI*2); ctx.fill();
+    });
+    countVal.textContent = terms.length;
+  }
+
+  function reset(){
+    terms = [];
+    if(timer){ clearInterval(timer); timer=null; }
+    draw();
+  }
+
+  function play(){
+    if(timer) return;
+    let k = terms.length;
+    timer = setInterval(()=>{
+      terms.push(nextTerm(k));
+      k++;
+      draw();
+      if(k > 120){ clearInterval(timer); timer=null; }
+    }, 110);
+  }
+
+  typeButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      typeButtons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      type = btn.dataset.type;
+      reset();
+    });
+  });
+  document.getElementById('lp-playBtn').addEventListener('click', play);
+  document.getElementById('lp-resetBtn').addEventListener('click', reset);
+
+  draw();
+})();
+</script>
+
+<script>
+(function(){
+  const roomsEl = document.getElementById('hh-rooms');
+  const newGuestEl = document.getElementById('hh-newGuest');
+  const N_ROOMS = 12;
+  let guests = []; // guests[i] = original guest number currently in room i+1, or null
+
+  function initHotel(){
+    guests = Array.from({length:N_ROOMS}, (_,i)=> i+1);
+    render();
+    newGuestEl.textContent = 'Every room is occupied.';
+  }
+
+  function render(highlightShift){
+    roomsEl.innerHTML = '';
+    for(let i=0;i<N_ROOMS;i++){
+      const div = document.createElement('div');
+      const occ = guests[i];
+      div.textContent = occ===null ? '' : 'Guest '+occ;
+      div.style.cssText = `
+        width:84px; height:52px; border:1px solid var(--line); border-radius:8px;
+        display:flex; align-items:center; justify-content:center; flex-direction:column;
+        font-family:'Inter',sans-serif; font-size:0.74rem; color:var(--ink-dim);
+        background:${occ===null ? 'var(--paper)' : 'var(--paper-2)'};
+        position:relative; transition:background 0.3s;
+      `;
+      const label = document.createElement('div');
+      label.textContent = 'Room '+(i+1);
+      label.style.cssText = 'font-family:IBM Plex Mono,monospace; font-size:0.62rem; color:var(--ink-faint); margin-bottom:3px;';
+      div.prepend(label);
+      roomsEl.appendChild(div);
+    }
+    const more = document.createElement('div');
+    more.textContent = '⋯';
+    more.style.cssText = 'display:flex; align-items:center; font-size:1.3rem; color:var(--ink-faint); padding:0 6px;';
+    roomsEl.appendChild(more);
+  }
+
+  let guestCounter = N_ROOMS;
+  function addGuest(){
+    guestCounter++;
+    newGuestEl.textContent = 'Guest '+guestCounter+' arrives — everyone shifts up by one room...';
+    // shift everyone up by one (room i gets occupant previously in room i-1)
+    for(let i=N_ROOMS-1;i>0;i--){
+      guests[i] = guests[i-1];
+    }
+    guests[0] = guestCounter;
+    render();
+    setTimeout(()=>{ newGuestEl.textContent = 'Guest '+guestCounter+' is now in Room 1. No one was left without a room.'; }, 400);
+  }
+
+  document.getElementById('hh-addBtn').addEventListener('click', addGuest);
+  document.getElementById('hh-resetBtn').addEventListener('click', ()=>{ guestCounter=N_ROOMS; initHotel(); });
+
+  initHotel();
+})();
 </script>
 
 </body>
