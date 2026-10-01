@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quasi-Periodicity: An Interactive Introduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f6f3;
+    --paper:#ffffff;
+    --paper-2:#eef1ee;
+    --line:#dde1dc;
+    --ink:#1e2a26;
+    --ink-dim:#5c6d67;
+    --ink-faint:#8b9791;
+    --accent:#2f6f5e;
+    --root1:#1f8a70;
+    --root2:#c9701f;
+    --root3:#6b4fa0;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12181f; --paper:#1a222c; --paper-2:#212b37; --line:#2c3947;
+      --ink:#e9e6dd; --ink-dim:#9aa7b4; --ink-faint:#6d7a85; --accent:#6fd0b8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12181f; --paper:#1a222c; --paper-2:#212b37; --line:#2c3947;
+    --ink:#e9e6dd; --ink-dim:#9aa7b4; --ink-faint:#6d7a85; --accent:#6fd0b8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Serif 4',Georgia,serif;
+    line-height:1.65;
+  }
+  mjx-container{color:var(--ink)!important;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:10;
+    padding:14px 24px calc(14px + env(safe-area-inset-top,0px));
+    padding-top:calc(14px + env(safe-area-inset-top,0px));
+  }
+  .topbar-inner{
+    max-width:1040px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'Inter',sans-serif;
+  }
+  .site-title{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:0.98rem;
+    color:var(--ink);
+  }
+  .site-title span{color:var(--ink-faint); font-weight:400;}
+  .chapter-dots{
+    display:flex; gap:6px; align-items:center;
+  }
+  .chapter-dots .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--line);
+  }
+  .chapter-dots .dot.done{background:var(--ink-faint);}
+  .chapter-dots .dot.current{
+    background:var(--accent);
+    width:9px; height:9px;
+  }
+  .chapter-label{
+    font-size:0.78rem; color:var(--ink-dim); font-family:'IBM Plex Mono',monospace;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:720px;
+    margin:0 auto;
+    padding:64px 24px 18px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;
+    font-size:clamp(2rem,5vw,2.7rem);
+    line-height:1.15;
+    margin:0 0 20px;
+    letter-spacing:-0.01em;
+  }
+  .lede{
+    font-size:1.15rem;
+    color:var(--ink-dim);
+    line-height:1.6;
+    max-width:62ch;
+  }
+
+  /* ---------- article ---------- */
+  article{
+    max-width:720px;
+    margin:0 auto;
+    padding:8px 24px 40px;
+  }
+  h2{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:1.5rem;
+    margin:2.6em 0 0.7em;
+    letter-spacing:-0.005em;
+  }
+  p{
+    font-size:1.08rem;
+    margin:0 0 1.3em;
+    max-width:68ch;
+  }
+  strong{font-weight:600;}
+  .eq-block{
+    margin:1.6em 0;
+    padding:4px 0;
+    overflow-x:auto;
+  }
+  .eq-block mjx-container{font-size:1.05em;}
+
+  .callout{
+    background:var(--paper-2);
+    border-left:3px solid var(--accent);
+    border-radius:4px;
+    padding:16px 20px;
+    margin:1.8em 0;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .callout .k{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--accent);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  /* ---------- breakout figure ---------- */
+  .breakout{
+    max-width:1040px;
+    margin:2.6em auto;
+    padding:0 24px;
+  }
+  .fig-caption{
+    font-family:'Inter',sans-serif;
+    font-size:0.85rem;
+    color:var(--ink-faint);
+    text-align:center;
+    margin-top:12px;
+    max-width:68ch;
+    margin-left:auto; margin-right:auto;
+  }
+  .fig-caption b{color:var(--ink-dim); font-weight:600;}
+
+  .demo-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+  }
+  .demo-stage{
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(260px,1fr);
+    gap:18px;
+  }
+  @media (max-width:820px){ .demo-stage{grid-template-columns:1fr;} }
+
+  .canvas-wrap{position:relative;}
+  canvas{
+    width:100%; display:block; border-radius:10px;
+    background:#ffffff; touch-action:none; cursor:crosshair;
+    box-shadow:inset 0 0 0 1px var(--line);
+  }
+  .hint{
+    position:absolute; top:18px; left:18px;
+    background:rgba(255,255,255,0.9);
+    border:1px solid var(--line); border-radius:8px;
+    padding:8px 12px; font-family:'Inter',sans-serif; font-size:0.76rem;
+    color:var(--ink-dim); line-height:1.55; pointer-events:none; max-width:230px;
+    box-shadow:0 2px 10px rgba(30,42,38,0.06);
+  }
+  .trace-panel{
+    position:absolute; bottom:18px; left:18px; right:18px;
+    background:rgba(255,255,255,0.95);
+    border:1px solid var(--line); border-radius:10px;
+    padding:11px 13px; font-family:'IBM Plex Mono',monospace; font-size:0.74rem;
+    color:var(--ink-dim); line-height:1.65; max-height:140px; overflow-y:auto; display:none;
+    box-shadow:0 2px 10px rgba(30,42,38,0.08);
+  }
+  .trace-panel.show{display:block;}
+  .trace-panel b{color:var(--ink); font-weight:500;}
+  .trace-panel .converged{display:inline-block; padding:2px 8px; border-radius:5px; font-weight:600; margin-top:4px; font-family:'Inter',sans-serif; font-size:0.72rem;}
+
+  .demo-panel{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:12px;
+    padding:16px; display:flex; flex-direction:column; gap:14px;
+    font-family:'Inter',sans-serif; height:fit-content;
+  }
+  .field label{display:flex; justify-content:space-between; align-items:baseline; font-size:0.82rem; color:var(--ink-dim); margin-bottom:6px;}
+  .field label span.val{font-family:'IBM Plex Mono',monospace; color:var(--ink); font-size:0.82rem;}
+  input[type=range]{width:100%; -webkit-appearance:none; height:4px; border-radius:2px; background:var(--line); outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:15px; height:15px; border-radius:50%; background:var(--accent); cursor:pointer; border:2px solid var(--paper); box-shadow:0 0 0 1px var(--line);}
+  .btn-row{display:flex; gap:8px;}
+  .btn{flex:1; background:var(--paper); border:1px solid var(--line); color:var(--ink); font-family:'Inter',sans-serif; font-size:0.82rem; padding:8px; border-radius:8px; cursor:pointer;}
+  .btn:hover{border-color:var(--ink-faint);}
+  .btn.primary{background:var(--accent); color:#fff; border:none; font-weight:600;}
+  .divider{height:1px; background:var(--line); margin:2px 0;}
+  .zoom-readout{font-family:'IBM Plex Mono',monospace; font-size:0.76rem; color:var(--ink-dim);}
+  .toggle-row{display:flex; gap:8px;}
+  .toggle-row button{flex:1; background:var(--paper); border:1px solid var(--line); color:var(--ink-dim); font-size:0.78rem; padding:7px; border-radius:8px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .toggle-row button.active{background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600;}
+  .root-key{display:flex; flex-direction:column; gap:6px; font-size:0.82rem; color:var(--ink-dim); font-family:'Inter',sans-serif;}
+  .swatch{display:inline-flex; align-items:center; gap:8px;}
+  .dot2{width:10px; height:10px; border-radius:50%; display:inline-block; flex-shrink:0;}
+  .dot2.r1{background:var(--root1);} .dot2.r2{background:var(--root2);} .dot2.r3{background:var(--root3);}
+
+  /* ---------- chapter nav footer ---------- */
+  .chapter-nav{
+    max-width:720px; margin:0 auto; padding:20px 24px 80px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid var(--line); margin-top:40px;
+  }
+  .chapter-nav-item{font-family:'Inter',sans-serif; font-size:0.85rem;}
+  .chapter-nav-item .cn-label{color:var(--ink-faint); font-size:0.75rem; display:block; margin-bottom:3px;}
+  .chapter-nav-item .cn-title{color:var(--ink-dim); font-style:italic;}
+  .chapter-nav-item.next{text-align:right;}
+  .chapter-nav a{text-decoration:none;}
+  .chapter-nav a:hover .cn-title{color:var(--accent);}
+</style>
+<style>
+  :root{
+    --bg:#f5f6f3;
+    --paper:#ffffff;
+    --paper-2:#eef1ee;
+    --line:#dde1dc;
+    --ink:#1e2a26;
+    --ink-dim:#5c6d67;
+    --ink-faint:#8b9791;
+    --accent:#2f6f5e;
+    --top:#1f8a70;
+    --bot:#c9701f;
+    --connector:#6b4fa0;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12181f; --paper:#1a222c; --paper-2:#212b37; --line:#2c3947;
+      --ink:#e9e6dd; --ink-dim:#9aa7b4; --ink-faint:#6d7a85; --accent:#6fd0b8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12181f; --paper:#1a222c; --paper-2:#212b37; --line:#2c3947;
+    --ink:#e9e6dd; --ink-dim:#9aa7b4; --ink-faint:#6d7a85; --accent:#6fd0b8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:'Source Serif 4',Georgia,serif; line-height:1.65;}
+  mjx-container{color:var(--ink)!important;}
+  a{color:var(--accent);}
+
+  .topbar{
+    background:var(--paper); border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:10;
+    padding:14px 24px calc(14px + env(safe-area-inset-top,0px));
+    padding-top:calc(14px + env(safe-area-inset-top,0px));
+  }
+  .topbar-inner{max-width:1040px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; font-family:'Inter',sans-serif;}
+  .site-title{font-family:'Source Serif 4',serif; font-weight:600; font-size:0.98rem; color:var(--ink);}
+  .site-title span{color:var(--ink-faint); font-weight:400;}
+  .chapter-dots{display:flex; gap:6px; align-items:center;}
+  .chapter-dots .dot{width:7px; height:7px; border-radius:50%; background:var(--line);}
+  .chapter-dots .dot.done{background:var(--ink-faint);}
+  .chapter-dots .dot.current{background:var(--accent); width:9px; height:9px;}
+  .chapter-label{font-size:0.78rem; color:var(--ink-dim); font-family:'IBM Plex Mono',monospace;}
+
+  .hero{max-width:720px; margin:0 auto; padding:64px 24px 18px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--accent); letter-spacing:0.02em; margin-bottom:14px;}
+  h1{font-family:'Source Serif 4',serif; font-weight:700; font-size:clamp(2rem,5vw,2.7rem); line-height:1.15; margin:0 0 20px; letter-spacing:-0.01em;}
+  .lede{font-size:1.15rem; color:var(--ink-dim); line-height:1.6; max-width:62ch;}
+
+  article{max-width:720px; margin:0 auto; padding:8px 24px 40px;}
+  h2{font-family:'Source Serif 4',serif; font-weight:600; font-size:1.5rem; margin:2.6em 0 0.7em; letter-spacing:-0.005em;}
+  h3{font-family:'Source Serif 4',serif; font-weight:600; font-size:1.18rem; margin:1.8em 0 0.5em;}
+  p{font-size:1.08rem; margin:0 0 1.3em; max-width:68ch;}
+  strong{font-weight:600;}
+  .eq-block{margin:1.6em 0; padding:4px 0; overflow-x:auto;}
+  .eq-block mjx-container{font-size:1.05em;}
+
+  .callout{background:var(--paper-2); border-left:3px solid var(--accent); border-radius:4px; padding:16px 20px; margin:1.8em 0; font-size:1rem; color:var(--ink);}
+  .callout .k{font-family:'Inter',sans-serif; font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent); display:block; margin-bottom:6px;}
+
+  .case-grid{display:flex; flex-direction:column; gap:14px; margin:1.8em 0;}
+  .case{background:var(--paper-2); border-radius:8px; padding:14px 18px; border:1px solid var(--line);}
+  .case .case-title{font-family:'Inter',sans-serif; font-weight:600; font-size:0.82rem; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.03em; margin-bottom:6px;}
+  .case .eq-block{margin:0.6em 0;}
+
+  table.compact-table{
+    width:100%; border-collapse:collapse; margin:1.8em 0; font-size:0.95rem;
+    font-family:'Inter',sans-serif;
+  }
+  table.compact-table th, table.compact-table td{
+    border:1px solid var(--line); padding:9px 12px; text-align:left;
+  }
+  table.compact-table th{background:var(--paper-2); font-weight:600; font-size:0.82rem; color:var(--ink-dim);}
+  table.compact-table td{font-family:'IBM Plex Mono',monospace; font-size:0.86rem;}
+
+  .proof-box{
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:20px 22px; margin:1.8em 0;
+  }
+  .proof-box .proof-label{font-family:'Inter',sans-serif; font-weight:600; font-size:0.82rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.03em; margin-bottom:10px;}
+  .proof-box p{margin-bottom:1em;}
+  .qed{text-align:right; font-family:'IBM Plex Mono',monospace; color:var(--ink-faint);}
+
+  .breakout{max-width:1040px; margin:2.6em auto; padding:0 24px;}
+  .fig-caption{font-family:'Inter',sans-serif; font-size:0.85rem; color:var(--ink-faint); text-align:center; margin-top:12px; max-width:68ch; margin-left:auto; margin-right:auto;}
+  .fig-caption b{color:var(--ink-dim); font-weight:600;}
+
+  .demo-card{background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:22px;}
+  .demo-note{background:var(--paper-2); border-left:3px solid var(--connector); border-radius:4px; padding:10px 16px; font-family:'Inter',sans-serif; font-size:0.85rem; color:var(--ink-dim); margin-bottom:18px;}
+  .demo-note b{color:var(--ink); font-weight:600;}
+  .demo-stage{display:grid; grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr); gap:18px;}
+  @media (max-width:820px){ .demo-stage{grid-template-columns:1fr;} }
+  .canvas-wrap{position:relative;}
+  canvas{width:100%; display:block; border-radius:10px; background:#ffffff; touch-action:none; cursor:grab; box-shadow:inset 0 0 0 1px var(--line);}
+  canvas:active{cursor:grabbing;}
+  .legend{position:absolute; top:18px; left:18px; background:rgba(255,255,255,0.92); border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-family:'IBM Plex Mono',monospace; font-size:0.74rem; color:var(--ink-dim); line-height:1.7; box-shadow:0 2px 10px rgba(30,42,38,0.06);}
+  .legend .row{display:flex; align-items:center; gap:7px;}
+  .legend .sw{width:15px; height:3px; border-radius:2px; display:inline-block;}
+  .demo-panel{background:var(--paper-2); border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:12px; font-family:'Inter',sans-serif; height:fit-content;}
+  .stat{display:flex; justify-content:space-between; font-size:0.82rem; color:var(--ink-dim);}
+  .stat b{color:var(--ink); font-family:'IBM Plex Mono',monospace; font-weight:500;}
+  .btn{background:var(--accent); color:#fff; border:none; font-family:'Inter',sans-serif; font-weight:600; font-size:0.86rem; padding:10px; border-radius:8px; cursor:pointer;}
+  .btn:hover{opacity:0.92;}
+  .btn.secondary{background:var(--paper); color:var(--ink); border:1px solid var(--line); font-weight:500;}
+  .btn-row{display:flex; gap:8px;}
+  .divider{height:1px; background:var(--line); margin:2px 0;}
+  .derivative-bar{height:7px; background:var(--paper); border-radius:4px; overflow:hidden; border:1px solid var(--line);}
+  .derivative-fill{height:100%; background:linear-gradient(90deg, var(--connector), #b03a3a); width:2%; transition:width 0.4s ease;}
+
+  .chapter-nav{max-width:720px; margin:0 auto; padding:20px 24px 80px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); margin-top:40px;}
+  .chapter-nav-item{font-family:'Inter',sans-serif; font-size:0.85rem;}
+  .chapter-nav-item .cn-label{color:var(--ink-faint); font-size:0.75rem; display:block; margin-bottom:3px;}
+  .chapter-nav-item .cn-title{color:var(--ink-dim); font-style:italic;}
+  .chapter-nav-item.next{text-align:right;}
+  .chapter-nav a{text-decoration:none;}
+  .chapter-nav a:hover .cn-title{color:var(--accent);}
+</style>
+<style>
+  .site-topbar{
+    background:var(--paper); border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:20;
+    padding:14px 24px calc(14px + env(safe-area-inset-top,0px));
+  }
+  .site-topbar-inner{max-width:1040px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; font-family:'Inter',sans-serif;}
+  .site-topbar-inner a{font-size:0.86rem; color:var(--ink-dim); font-weight:500; text-decoration:none;}
+  .site-topbar-inner a:hover{color:var(--accent);}
+  .site-topbar-title{font-family:'Source Serif 4',serif; font-weight:600; font-size:0.95rem; color:var(--ink);}
+  .site-nav-links{display:flex; gap:20px;}
+  .section-divider{
+    max-width:1040px; margin:60px auto 0; padding:0 24px;
+    display:flex; align-items:center; gap:16px;
+  }
+  .section-divider .line{flex:1; height:1px; background:var(--line);}
+  .section-divider .label{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink-faint); white-space:nowrap;}
+  .back-to-top{
+    max-width:720px; margin:0 auto; padding:30px 24px 10px; text-align:right;
+    font-family:'Inter',sans-serif; font-size:0.85rem;
+  }
+  .back-to-top a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .back-to-top a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="site-topbar">
+  <div class="site-topbar-inner">
+    <span class="site-topbar-title">Quasi-Periodicity <span style="color:var(--ink-faint); font-weight:400;">· an interactive introduction</span></span>
+    <div class="site-nav-links">
+      <a href="#toc">Contents</a>
+      <a href="#chapter-1">Ch. 1</a>
+      <a href="#chapter-2">Ch. 2</a>
+    </div>
+  </div>
+</div>
+
+<div id="toc">
+<div class="hero" style="padding-top:56px;">
+  <div class="kicker" style="font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--accent); letter-spacing:0.04em; margin-bottom:18px;">AN INTERACTIVE MONOGRAPH</div>
+  <h1>Quasi-Periodicity: Theory, Level Sets, and the Search for U</h1>
+  <p class="lede" style="margin:0 auto 6px; text-align:center;">A chapter-by-chapter introduction built from the research group's own working sessions</p>
+  <p class="lede" style="margin:0 auto; text-align:center; font-size:0.95rem; color:var(--ink-faint);">Research direction: Professor Roberto De Leo · Howard University</p>
+
+  <div style="max-width:62ch; margin:28px auto 0; text-align:left; font-size:1.02rem; color:var(--ink-dim); background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 26px;">
+    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--accent); display:block; margin-bottom:10px;">Abstract</span>
+    This monograph introduces quasi-periodic functions from first principles, for readers with no more
+    than a first calculus course. Starting from the surprising complexity hidden inside Newton's method,
+    we build up — through compactness, periodic functions, and the torus — to the actual research
+    question at the heart of this project: given a triply-periodic function sliced by a tilted plane, are
+    its level sets closed loops, or do they drift toward a computable direction at infinity? Every concept
+    is paired with a working, hands-on simulation rather than a static figure.
+  </div>
+</div>
+
+<div style="max-width:680px; margin:48px auto 60px; padding:0 24px;">
+  <div style="font-family:'Inter',sans-serif; font-weight:600; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-faint); margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:12px;">Table of Contents</div>
+
+  <div class="chapter active">
+    <a href="#chapter-1" class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px; border-radius:10px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent); font-weight:500; min-width:22px;">1</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; font-weight:600;">A Beautiful Warm-Up: Newton Fractals</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:rgba(47,111,94,0.12); color:var(--accent); font-weight:600;">Available</span>
+    </a>
+    <ul class="subsections" style="list-style:none; margin:2px 0 14px; padding:0 0 0 52px; font-family:'Inter',sans-serif; font-size:0.9rem;">
+      <li style="margin:7px 0;"><a href="#ch1-problem" style="color:var(--ink-dim);">The problem: finding roots</a></li>
+      <li style="margin:7px 0;"><a href="#ch1-polynomial" style="color:var(--ink-dim);">The polynomial we'll use</a></li>
+      <li style="margin:7px 0;"><a href="#ch1-experiment" style="color:var(--ink-dim);">The experiment</a></li>
+      <li style="margin:7px 0;"><a href="#ch1-fractal" style="color:var(--ink-dim);">Why the boundary is a fractal</a></li>
+      <li style="margin:7px 0;"><a href="#ch1-why-start" style="color:var(--ink-dim);">Why we start here</a></li>
+    </ul>
+  </div>
+
+  <div class="chapter active">
+    <a href="#chapter-2" class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px; border-radius:10px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent); font-weight:500; min-width:22px;">2</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; font-weight:600;">Compact and Non-Compact Worlds</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:rgba(47,111,94,0.12); color:var(--accent); font-weight:600;">Available</span>
+    </a>
+    <ul class="subsections" style="list-style:none; margin:2px 0 14px; padding:0 0 0 52px; font-family:'Inter',sans-serif; font-size:0.9rem;">
+      <li style="margin:7px 0;"><a href="#ch2-compact" style="color:var(--ink-dim);">2.1 — Compactness, made precise</a></li>
+      <li style="margin:7px 0;"><a href="#ch2-limit-points" style="color:var(--ink-dim);">2.2 — Limit points</a></li>
+      <li style="margin:7px 0;"><a href="#ch2-countable" style="color:var(--ink-dim);">2.3 — Countable vs. uncountable</a></li>
+      <li style="margin:7px 0;"><a href="#ch2-max-theorem" style="color:var(--ink-dim);">2.4 — The payoff: a maximum, guaranteed</a></li>
+      <li style="margin:7px 0;"><a href="#ch2-construction" style="color:var(--ink-dim);">2.5 — A fully constructive example</a></li>
+    </ul>
+  </div>
+
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">3</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Classifying Compact Surfaces</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">4</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Periodic Functions</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">5</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Quasi-Periodic Functions in One Variable</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">6</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Quasi-Periodic Level Sets in Two Variables</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">7</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Physical Application: Electrons in Metals</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">8</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Computational Methods</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+  <div class="chapter upcoming">
+    <div class="chapter-row" style="display:flex; align-items:baseline; gap:14px; padding:14px 16px;">
+      <span class="chapter-num" style="font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--ink-faint); min-width:22px;">9</span>
+      <span class="chapter-title" style="font-size:1.08rem; flex:1; color:var(--ink-faint);">Open Questions</span>
+      <span class="chapter-status" style="font-family:'Inter',sans-serif; font-size:0.72rem; padding:3px 9px; border-radius:20px; background:var(--paper-2); color:var(--ink-faint);">Coming soon</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"><div class="line"></div><div class="label">CHAPTER 1</div><div class="line"></div></div>
+<div id="chapter-1"></div>
+<div class="hero">
+  <div class="eyebrow">CHAPTER 1</div>
+  <h1>A Beautiful Warm-Up: Newton Fractals</h1>
+  <p class="lede">
+    Some of the best mathematics starts from a question you could ask in the first week of calculus,
+    yet leads somewhere nobody could have predicted just by looking at the question. This is one such
+    example, and it sets the tone for everything that follows.
+  </p>
+</div>
+
+<article>
+
+  <h2 id="ch1-problem">The problem: finding roots</h2>
+  <p>
+    Suppose you want to solve an equation $p(z) = 0$, but there's no clean formula for the answer.
+    <strong>Newton's method</strong> is a way of homing in on a solution by repeated guessing and
+    correcting. Starting from some guess $z_0$, you improve it using the rule:
+  </p>
+  <div class="eq-block">$$z_{n+1} = z_n - \frac{p(z_n)}{p'(z_n)}$$</div>
+  <p>
+    The idea is geometric: at your current guess, draw the tangent line to the graph of $p$, and see
+    where that tangent line crosses zero. That crossing point becomes your next, usually much better,
+    guess. Repeat a handful of times, and you typically land extremely close to an actual root.
+  </p>
+
+  <h2 id="ch1-polynomial">The polynomial we'll use</h2>
+  <p>We'll apply this to the equation</p>
+  <div class="eq-block">$$p(z) = z^3 - 1 = 0$$</div>
+  <p>
+    but working with <strong>complex numbers</strong>, not just real ones. This matters because a
+    degree-3 polynomial always has exactly 3 roots once complex numbers are allowed — even though,
+    restricted to real numbers, $z^3=1$ has only the one obvious solution $z=1$. The other two roots
+    are complex:
+  </p>
+  <div class="eq-block">$$z_1 = 1, \qquad z_2 = e^{2\pi i/3}, \qquad z_3 = e^{4\pi i/3}$$</div>
+  <p>
+    Plotted in the complex plane, these three points sit at the corners of an equilateral triangle,
+    each at distance 1 from the origin.
+  </p>
+  <p>
+    Differentiating gives $p'(z) = 3z^2$, so Newton's method here becomes the concrete update rule:
+  </p>
+  <div class="eq-block">$$z_{n+1} = z_n - \frac{z_n^3-1}{3z_n^2}$$</div>
+
+  <h2 id="ch1-experiment">The experiment</h2>
+  <p>
+    Now here's the question that turns this into something worth looking at: take
+    <strong>every</strong> possible starting guess $z_0$ in some region of the complex plane — think of
+    every pixel on a screen as its own starting point — and run Newton's method from each one. Which of
+    the three roots does it eventually converge to?
+  </p>
+  <p>
+    Color each starting point according to the answer: one color if it converges to $z_1$, a second
+    color for $z_2$, a third for $z_3$.
+  </p>
+  <p>
+    If you guessed that this produces three simple, cleanly separated regions — a bit like three
+    overlapping circles — that guess is wrong, and it's wrong in a spectacular way.
+  </p>
+</article>
+
+<div class="breakout">
+  <div class="demo-card">
+    <div class="demo-stage">
+      <div class="canvas-wrap">
+        <canvas id="c1Plot" width="900" height="640"></canvas>
+        <div class="hint" id="c1Hint">Click to trace a point's convergence path.<br>Scroll to zoom, drag to pan.</div>
+        <div class="trace-panel" id="c1TracePanel"></div>
+      </div>
+      <div class="demo-panel">
+        <div class="root-key">
+          <span class="swatch"><span class="dot2 r1"></span>converges to z = 1</span>
+          <span class="swatch"><span class="dot2 r2"></span>converges to z = e^(2πi/3)</span>
+          <span class="swatch"><span class="dot2 r3"></span>converges to z = e^(4πi/3)</span>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Max iterations <span class="val" id="c1IterVal">30</span></label>
+          <input type="range" id="c1IterSlider" min="4" max="60" step="1" value="30">
+        </div>
+        <div class="field">
+          <label>Zoom <span class="val" id="c1ZoomVal">1.0×</span></label>
+          <div class="zoom-readout" id="c1ViewReadout">center: (0.00, 0.00)</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn" id="c1ZoomInBtn">Zoom in</button>
+          <button class="btn" id="c1ZoomOutBtn">Zoom out</button>
+        </div>
+        <button class="btn" id="c1ResetBtn">Reset view</button>
+        <div class="divider"></div>
+        <label style="font-size:0.82rem; color:var(--ink-dim);">Color mode</label>
+        <div class="toggle-row">
+          <button id="c1ModeBasin" class="active">By root</button>
+          <button id="c1ModeSpeed">By speed</button>
+        </div>
+        <div class="divider"></div>
+        <button class="btn primary" id="c1AutoZoomBtn">Auto-zoom into the boundary</button>
+      </div>
+    </div>
+  </div>
+  <div class="fig-caption"><b>Figure 1.1</b> — Newton's method on $z^3-1$. Every point is colored by which root it converges to. Click to trace an individual path; use auto-zoom to see the boundary's self-similarity directly.</div>
+</div>
+
+<article>
+  <h2 id="ch1-fractal">Why the boundary is a fractal</h2>
+  <p>
+    The three colored regions — called <strong>basins of attraction</strong> — interlock in a pattern
+    that never simplifies, no matter how far you zoom in. Two properties make this precise.
+  </p>
+
+  <div class="callout">
+    <span class="k">Self-similarity</span>
+    Zoom into any point where the three colors meet, and you find the same three-way tangle again, at
+    smaller scale — not a simpler picture, the <em>same</em> picture.
+  </div>
+
+  <div class="callout">
+    <span class="k">No smooth boundary, anywhere</span>
+    In an ordinary partition of a region — countries on a map, say — the boundary between any two pieces
+    is locally close to a straight line if you zoom in far enough. Here, that never happens: at every
+    point on the boundary between, say, the green and orange regions, the third color (violet) is also
+    arbitrarily close by. There is no small stretch of boundary that is simply "two colors meeting" —
+    all three are always present near any boundary point, at every scale.
+  </div>
+
+  <p>
+    This boundary set has a name — the <strong>Julia set</strong> of the map
+    $z \mapsto z - \dfrac{z^3-1}{3z^2}$ — and it captures exactly the starting points where the long-run
+    outcome is maximally sensitive to the tiniest change in $z_0$: nudge a starting guess near this
+    boundary by an imperceptible amount, and you can flip which root it eventually converges to
+    entirely.
+  </p>
+
+  <h2 id="ch1-why-start">Why we start here</h2>
+  <p>
+    This example is deliberately the first thing in the whole project, for a reason worth stating
+    plainly: everything that follows — quasi-periodic functions, their level sets, the fractal "island"
+    map that the final algorithm produces — shares this same character. A perfectly well-defined,
+    entirely deterministic numerical rule, followed faithfully, can generate a picture of endless
+    intricacy that no amount of staring at the original formula would have suggested. Newton's method on
+    a cubic is the simplest possible setting in which to feel that surprise firsthand, before meeting it
+    again in far more sophisticated form later on.
+  </p>
+</article>
+<div class="back-to-top"><a href="#toc">↑ Back to Contents</a></div>
+<div class="section-divider"><div class="line"></div><div class="label">CHAPTER 2</div><div class="line"></div></div>
+<div id="chapter-2"></div>
+<div class="hero">
+  <div class="eyebrow">CHAPTER 2</div>
+  <h1>Compact and Non-Compact Worlds</h1>
+  <p class="lede">
+    One idea underlies almost everything in this project: on a bounded, closed space, bad behavior has
+    nowhere to hide. This chapter makes that idea precise, then builds a fully explicit example of what
+    goes wrong the moment you take that boundedness away.
+  </p>
+</div>
+
+<article>
+
+  <h2 id="ch2-compact">2.1 — Compactness, made precise</h2>
+  <p>A set $K$ is <strong>compact</strong> if it is both:</p>
+  <div class="eq-block">
+    $$\textbf{closed} \;(\text{contains all its limit points}) \quad\text{and}\quad \textbf{bounded} \;(\text{fits inside some ball of finite radius})$$
+  </div>
+
+  <table class="compact-table">
+    <tr><th>Set</th><th>Bounded?</th><th>Closed?</th><th>Compact?</th></tr>
+    <tr><td>Sphere: $x^2+y^2+z^2=1$</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>Closed disk: $x^2+y^2 \le 1$</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    <tr><td>Open disk: $x^2+y^2 < 1$</td><td>✅</td><td>❌</td><td>❌</td></tr>
+    <tr><td>Hyperbola: $xy=1$</td><td>❌</td><td>✅</td><td>❌</td></tr>
+    <tr><td>Whole plane $\mathbb{R}^2$</td><td>❌</td><td>✅</td><td>❌</td></tr>
+  </table>
+
+  <p>
+    Notice the open disk: it's bounded, but <strong>not</strong> closed, since it's missing its own
+    boundary circle. A sequence marching toward the edge has a limit point that isn't actually in the
+    set — and that single missing detail is enough to break compactness entirely.
+  </p>
+
+  <h2 id="ch2-limit-points">2.2 — Limit points</h2>
+  <div class="eq-block">
+    $$p \text{ is a limit point of } (x_n) \iff \forall\, \varepsilon>0,\;\; \#\{n : |x_n-p|<\varepsilon\} = \infty$$
+  </div>
+  <p>
+    In words: no matter how tiny a neighborhood you draw around $p$, infinitely many terms of the
+    sequence fall inside it.
+  </p>
+  <div class="callout">
+    <span class="k">Bolzano–Weierstrass</span>
+    $$(x_n) \text{ bounded} \;\Longrightarrow\; (x_n) \text{ has at least one limit point}$$
+    This is the rigorous version of "on a compact space, there's nowhere to hide."
+  </div>
+
+  <h3>Four worked cases</h3>
+  <p>How many limit points can one sequence have?</p>
+
+  <div class="case-grid">
+    <div class="case">
+      <div class="case-title">Case 1 — exactly one (convergent)</div>
+      <div class="eq-block">$$x_n = \frac{1}{n} \;\longrightarrow\; 0 \qquad \text{only limit point: } p=0$$</div>
+    </div>
+    <div class="case">
+      <div class="case-title">Case 2 — exactly two (interleaved)</div>
+      <div class="eq-block">$$x_n = \begin{cases} 1/n & n \text{ even} \\ 1+1/n & n \text{ odd}\end{cases} \qquad \text{limit points: } 0 \text{ and } 1$$</div>
+    </div>
+    <div class="case">
+      <div class="case-title">Case 3 — uncountably many (all rationals in [0,1])</div>
+      <p style="margin-bottom:0.6em;">Every real number in $[0,1]$ is approachable by rationals — e.g. approaching $\sqrt2-1$:</p>
+      <div class="eq-block">$$q_1=0.4,\;\; q_2=0.41,\;\; q_3=0.414,\;\; q_4=0.4142,\;\dots \;\longrightarrow\; \sqrt2-1$$</div>
+      <p style="margin-bottom:0;">One sequence listing all rationals in $[0,1]$ has <strong>every point of $[0,1]$</strong> as a limit point.</p>
+    </div>
+    <div class="case">
+      <div class="case-title">Case 4 — none at all (only possible when unbounded)</div>
+      <div class="eq-block">$$x_n = n \quad(1,2,3,4,\dots) \;\longrightarrow\; \infty \qquad \text{no limit point exists}$$</div>
+    </div>
+  </div>
+
+  <h2 id="ch2-countable">2.3 — Countable vs. uncountable</h2>
+  <div class="eq-block">
+    $$\text{Countable} = \text{listable as a sequence} = \text{1-to-1 with } \mathbb{N}=\{1,2,3,\dots\}$$
+  </div>
+  <div class="eq-block">$$\mathbb{Q} \text{ is countable} \qquad\text{(surprising — density} \ne \text{size)}$$</div>
+  <div class="eq-block">$$[0,1]\subset\mathbb{R} \text{ is uncountable}$$</div>
+  <p>
+    <strong>Sketch of why (diagonalization):</strong> suppose every real number in $[0,1]$ could be listed
+    as $r_1,r_2,r_3,\dots$, each an infinite decimal. Build a new number $r^*$ whose $n$-th digit
+    <strong>differs</strong> from $r_n$'s $n$-th digit. Then $r^*$ differs from every $r_n$ somewhere —
+    so $r^*$ isn't on the list at all, contradicting the assumption that the list was complete.
+  </p>
+
+  <h2 id="ch2-max-theorem">2.4 — The payoff: a maximum, guaranteed</h2>
+  <div class="proof-box">
+    <div class="proof-label">Theorem</div>
+    <p>If $f$ is continuous on a compact set $K$, then $f$ attains a maximum on $K$.</p>
+    <div class="proof-label">Proof, by contradiction</div>
+    <p>Suppose $f$ has <strong>no</strong> maximum. Then:</p>
+    <div class="eq-block">$$\forall n \in \mathbb{N},\; \exists\, x_n \in K \text{ such that } f(x_n) > n$$</div>
+    <p>This gives a sequence $(x_n)$ inside the <strong>bounded</strong> set $K$. By Bolzano–Weierstrass, some subsequence converges:</p>
+    <div class="eq-block">$$x_{n_k} \to p \in K$$</div>
+    <p>By continuity:</p>
+    <div class="eq-block">$$f(p) = \lim_{k\to\infty} f(x_{n_k})$$</div>
+    <p>
+      But $f(x_{n_k}) > n_k \to \infty$, forcing $f(p)=\infty$ — impossible, since continuity requires
+      $f(p)$ to be an actual finite number. Contradiction — so $f$ must have a maximum.
+    </p>
+    <p class="qed">∎</p>
+  </div>
+  <p>
+    <strong>Why this fails on a non-compact set:</strong> the same attempted proof breaks exactly at
+    "Bolzano–Weierstrass gives a convergent subsequence" — without boundedness, $(x_n)$ can simply run
+    off to infinity with no accumulation point at all, so no contradiction ever arises. This is precisely
+    why $f(x)=x$ on $\mathbb{R}$ has no maximum: nothing stops $x_n=n$ from escaping to infinity.
+  </p>
+
+  <h2 id="ch2-construction">2.5 — A fully constructive example</h2>
+  <p>
+    Take the simplest possible vector field: $\dot x = 1,\; \dot y = 0$, whose trajectories are just
+    parallel horizontal lines. Now consider a genuinely different one:
+  </p>
+  <div class="eq-block">$$\dot x = 2y, \qquad \dot y = 1-y^2$$</div>
+  <p>
+    On $y=1$: $\dot y=0$, $\dot x=2$ — constant rightward motion. On $y=-1$: $\dot y=0$, $\dot x=-2$ —
+    constant leftward motion. Everywhere else, curves come in from infinity, bend, and go back out,
+    asymptotic to these two special lines on either end.
+  </p>
+  <p>
+    Two trajectories are <strong>separable</strong> if small-enough segments crossing each never share a
+    common trajectory. The lines $y=\pm1$ here are <strong>inseparable</strong>: some in-between
+    trajectory always crosses arbitrarily small segments near both.
+  </p>
+  <p>
+    Here's the construction that makes this precise and buildable: insert a curve asymptotic to both
+    special lines — approaching one as $x\to-\infty$, the other as $x\to+\infty$ — which makes them
+    inseparable. Then repeat the same trick at smaller and smaller scales, indefinitely:
+  </p>
+  <div class="eq-block">$$\text{iteration 1} \to \text{iteration 2} \to \text{iteration 3} \to \cdots$$</div>
+  <p>
+    After infinitely many steps, you get a <strong>countable</strong> set of pairwise-inseparable lines —
+    enough to be <strong>dense</strong>, since density only requires countability, not uncountability.
+  </p>
+  <p>
+    Each iteration makes the field rotate faster in a narrower band, so its derivative diverges as you go
+    to infinity:
+  </p>
+  <div class="eq-block">$$\|\nabla V(z)\| \to \infty \quad \text{as } |z|\to\infty$$</div>
+  <p>
+    — finite at every actual point, but unbounded as a limit. On a compact set this would be impossible:
+    the sequence of "turn-around" points would be forced (by §2.2) to converge to some point $p$, where
+    the derivative would then have to be genuinely infinite. On the non-compact plane, that sequence
+    simply escapes to infinity instead, so the contradiction never triggers. See it built step by step
+    below.
+  </p>
+</article>
+
+<div class="breakout">
+  <div class="demo-card">
+    <div class="demo-note">
+      <b>This is a schematic, not a literal solution.</b> De Leo's construction was shown only as a
+      picture, and he was explicit that the exact formula doesn't matter — only that one exists. This
+      demo captures the same mechanism (asymptotic connectors, escalating and marching outward) rather
+      than reproducing the freehand drawing exactly.
+    </div>
+    <div class="demo-stage">
+      <div class="canvas-wrap">
+        <canvas id="c2Plot" width="900" height="560"></canvas>
+        <div class="legend">
+          <div class="row"><span class="sw" style="background:var(--top)"></span>anchor: y = 1</div>
+          <div class="row"><span class="sw" style="background:var(--bot)"></span>anchor: y = −1</div>
+          <div class="row"><span class="sw" style="background:var(--connector)"></span>connector curves</div>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div class="stat">Connectors added <b id="c2CountVal">0</b></div>
+        <div class="stat">Farthest center, xₖ <b id="c2XkVal">—</b></div>
+        <div class="stat">Narrowest width, wₖ <b id="c2WkVal">—</b></div>
+        <div class="stat">Steepness ~ 1/wₖ <b id="c2SteepVal">—</b></div>
+        <div class="derivative-bar"><div class="derivative-fill" id="c2DerivBar"></div></div>
+        <div class="divider"></div>
+        <button class="btn" id="c2AddBtn">Add next connector</button>
+        <div class="btn-row">
+          <button class="btn secondary" id="c2JumpBtn">Jump to latest</button>
+          <button class="btn secondary" id="c2ResetViewBtn">View all</button>
+        </div>
+        <button class="btn secondary" id="c2ResetBtn">Reset construction</button>
+      </div>
+    </div>
+  </div>
+  <div class="fig-caption"><b>Figure 2.1</b> — Each connector is asymptotic to both anchor lines, placed farther out and narrower every time. The steepness needed keeps climbing without bound, exactly because the centers keep escaping toward infinity instead of settling anywhere.</div>
+</div>
+
+<article>
+  <p>
+    Every connector added here is finite and perfectly well-defined — the field never actually reaches
+    infinite steepness anywhere on the page. But the steepness required keeps climbing without bound the
+    farther out you push. This is the fully concrete version of "hiding pathology at infinity," and it's
+    the single idea — compact spaces leave bad behavior nowhere to go — that everything from here on
+    builds on. Quasi-periodic functions, coming up next, are interesting precisely because they live on
+    the boundary of this idea: not periodic (not living on a genuinely compact circle), yet still
+    inheriting boundedness from a periodic, compact origin.
+  </p>
+</article>
+<div class="back-to-top" style="padding-bottom:80px;"><a href="#toc">↑ Back to Contents</a></div>
+
+<script>
+
+(function(){
+  const canvas = document.getElementById('c1Plot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const imgData = ctx.createImageData(W,H);
+
+  const iterSlider = document.getElementById('c1IterSlider');
+  const iterVal = document.getElementById('c1IterVal');
+  const zoomVal = document.getElementById('c1ZoomVal');
+  const viewReadout = document.getElementById('c1ViewReadout');
+  const hint = document.getElementById('c1Hint');
+  const tracePanel = document.getElementById('c1TracePanel');
+
+  const roots = [
+    {re:1, im:0},
+    {re:-0.5, im:Math.sqrt(3)/2},
+    {re:-0.5, im:-Math.sqrt(3)/2}
+  ];
+  const rootColors = [
+    [31,138,112],
+    [201,112,31],
+    [107,79,160]
+  ];
+
+  let centerX = 0, centerY = 0;
+  let scale = 1.6;
+  let colorMode = 'basin';
+
+  function complexAt(px,py){
+    const x = centerX + (px/W - 0.5) * 2*scale;
+    const y = centerY - (py/H - 0.5) * 2*scale*(H/W);
+    return {re:x, im:y};
+  }
+
+  function newtonStep(z){
+    const z2re = z.re*z.re - z.im*z.im;
+    const z2im = 2*z.re*z.im;
+    const z3re = z2re*z.re - z2im*z.im;
+    const z3im = z2re*z.im + z2im*z.re;
+    const fre = z3re - 1, fim = z3im;
+    const dre = 3*z2re, dim = 3*z2im;
+    const denom = dre*dre + dim*dim;
+    if(denom < 1e-14) return z;
+    const qre = (fre*dre + fim*dim)/denom;
+    const qim = (fim*dre - fre*dim)/denom;
+    return {re: z.re - qre, im: z.im - qim};
+  }
+
+  function classify(z0, maxIter){
+    let z = z0;
+    for(let i=0;i<maxIter;i++){
+      z = newtonStep(z);
+      for(let r=0;r<3;r++){
+        const dre = z.re-roots[r].re, dim = z.im-roots[r].im;
+        if(dre*dre+dim*dim < 1e-12) return {root:r, iters:i+1};
+      }
+    }
+    let best=0, bestD=Infinity;
+    for(let r=0;r<3;r++){
+      const dre=z.re-roots[r].re, dim=z.im-roots[r].im;
+      const d=dre*dre+dim*dim;
+      if(d<bestD){bestD=d; best=r;}
+    }
+    return {root:best, iters:maxIter};
+  }
+
+  let renderToken = 0;
+  function render(){
+    const myToken = ++renderToken;
+    const maxIter = parseInt(iterSlider.value);
+    iterVal.textContent = maxIter;
+    zoomVal.textContent = (1.6/scale).toFixed(1)+'×';
+    viewReadout.textContent = 'center: ('+centerX.toFixed(3)+', '+centerY.toFixed(3)+')';
+
+    const data = imgData.data;
+    for(let py=0; py<H; py++){
+      for(let px=0; px<W; px++){
+        const z0 = complexAt(px,py);
+        const {root, iters} = classify(z0, maxIter);
+        const idx = (py*W+px)*4;
+        let [r,g,b] = rootColors[root];
+        const t = 1 - iters/maxIter;
+        const shade = colorMode==='speed' ? (0.25+0.75*t) : (0.55+0.45*t);
+        r*=shade; g*=shade; b*=shade;
+        data[idx]=r; data[idx+1]=g; data[idx+2]=b; data[idx+3]=255;
+      }
+      if(py % 80 === 0 && myToken !== renderToken) return;
+    }
+    if(myToken !== renderToken) return;
+    ctx.putImageData(imgData,0,0);
+  }
+
+  let renderQueued = false;
+  function scheduleRender(){
+    if(renderQueued) return;
+    renderQueued = true;
+    requestAnimationFrame(()=>{ renderQueued=false; render(); });
+  }
+
+  iterSlider.addEventListener('input', scheduleRender);
+
+  document.getElementById('c1ModeBasin').addEventListener('click', function(){
+    colorMode='basin'; this.classList.add('active');
+    document.getElementById('c1ModeSpeed').classList.remove('active');
+    scheduleRender();
+  });
+  document.getElementById('c1ModeSpeed').addEventListener('click', function(){
+    colorMode='speed'; this.classList.add('active');
+    document.getElementById('c1ModeBasin').classList.remove('active');
+    scheduleRender();
+  });
+
+  document.getElementById('c1ZoomInBtn').addEventListener('click', ()=>{ scale*=0.6; scheduleRender(); });
+  document.getElementById('c1ZoomOutBtn').addEventListener('click', ()=>{ scale/=0.6; scheduleRender(); });
+  document.getElementById('c1ResetBtn').addEventListener('click', ()=>{
+    centerX=0; centerY=0; scale=1.6; scheduleRender();
+  });
+
+  canvas.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    const factor = e.deltaY < 0 ? 0.85 : 1/0.85;
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX-rect.left)/rect.width*W;
+    const py = (e.clientY-rect.top)/rect.height*H;
+    const zBefore = complexAt(px,py);
+    scale *= factor;
+    const zAfter = complexAt(px,py);
+    centerX += zBefore.re - zAfter.re;
+    centerY += zBefore.im - zAfter.im;
+    scheduleRender();
+  }, {passive:false});
+
+  let pStart=null, dragged=false, dragCenterStart=null;
+  canvas.addEventListener('pointerdown', e=>{
+    pStart = {x:e.clientX,y:e.clientY};
+    dragCenterStart = {cx:centerX, cy:centerY};
+    dragged=false;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', e=>{
+    if(!pStart) return;
+    const dx = e.clientX-pStart.x, dy=e.clientY-pStart.y;
+    if(Math.abs(dx)>4 || Math.abs(dy)>4){
+      dragged = true;
+      const rect = canvas.getBoundingClientRect();
+      const unitsPerPxX = (2*scale)/rect.width;
+      const unitsPerPxY = (2*scale*(H/W))/rect.height;
+      centerX = dragCenterStart.cx - dx*unitsPerPxX;
+      centerY = dragCenterStart.cy + dy*unitsPerPxY;
+      scheduleRender();
+    }
+  });
+  canvas.addEventListener('pointerup', e=>{
+    if(!dragged && pStart){
+      const rect = canvas.getBoundingClientRect();
+      const px = (e.clientX-rect.left)/rect.width*W;
+      const py = (e.clientY-rect.top)/rect.height*H;
+      traceFrom(px,py);
+    }
+    pStart=null;
+  });
+
+  function traceFrom(px,py){
+    hint.style.display='none';
+    const maxIter = parseInt(iterSlider.value);
+    let z = complexAt(px,py);
+    const path = [{...z}];
+    let convergedRoot = -1;
+    for(let i=0;i<maxIter;i++){
+      z = newtonStep(z);
+      path.push({...z});
+      for(let r=0;r<3;r++){
+        const dre=z.re-roots[r].re, dim=z.im-roots[r].im;
+        if(dre*dre+dim*dim < 1e-12){ convergedRoot=r; break; }
+      }
+      if(convergedRoot>=0) break;
+    }
+
+    render();
+    ctx.strokeStyle = 'rgba(30,42,38,0.9)';
+    ctx.lineWidth = 1.5;
+    path.forEach((p,i)=>{
+      const sx = ((p.re-centerX)/(2*scale) + 0.5)*W;
+      const sy = (0.5 - (p.im-centerY)/(2*scale*(H/W)))*H;
+      ctx.fillStyle = i===path.length-1 ? '#1e2a26' : 'rgba(30,42,38,0.55)';
+      ctx.beginPath(); ctx.arc(sx,sy, i===0?4:2.5, 0, Math.PI*2); ctx.fill();
+    });
+    ctx.beginPath();
+    path.forEach((p,i)=>{
+      const sx = ((p.re-centerX)/(2*scale) + 0.5)*W;
+      const sy = (0.5 - (p.im-centerY)/(2*scale*(H/W)))*H;
+      if(i===0) ctx.moveTo(sx,sy); else ctx.lineTo(sx,sy);
+    });
+    ctx.stroke();
+
+    const rootNames = ['z = 1','z = e^(2\u03c0i/3)','z = e^(4\u03c0i/3)'];
+    const rootColHex = ['#1f8a70','#c9701f','#6b4fa0'];
+    const rootCol = convergedRoot>=0 ? rootColHex[convergedRoot] : '#888';
+    tracePanel.innerHTML =
+      '<b>Start:</b> z\u2080 = '+path[0].re.toFixed(4)+' + '+path[0].im.toFixed(4)+'i &nbsp; '+
+      '<b>Steps:</b> '+(convergedRoot>=0 ? path.length-1 : 'did not converge')+'<br>'+
+      (convergedRoot>=0 ? '<span class="converged" style="background:'+rootCol+'; color:#fff;">converged to '+rootNames[convergedRoot]+'</span>' : '');
+    tracePanel.classList.add('show');
+  }
+
+  let autoZoomTimer=null;
+  document.getElementById('c1AutoZoomBtn').addEventListener('click', function(){
+    if(autoZoomTimer){ clearInterval(autoZoomTimer); autoZoomTimer=null; this.textContent='Auto-zoom into the boundary'; return; }
+    this.textContent='Stop auto-zoom';
+    centerX = 0.02; centerY = 0.35;
+    let steps=0;
+    autoZoomTimer = setInterval(()=>{
+      scale *= 0.94;
+      scheduleRender();
+      steps++;
+      if(steps>140){ clearInterval(autoZoomTimer); autoZoomTimer=null; document.getElementById('c1AutoZoomBtn').textContent='Auto-zoom into the boundary'; }
+    }, 90);
+  });
+
+  render();
+})();
+
+</script>
+
+<script>
+
+(function(){
+  const canvas = document.getElementById('c2Plot');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  const countVal = document.getElementById('c2CountVal');
+  const xkVal = document.getElementById('c2XkVal');
+  const wkVal = document.getElementById('c2WkVal');
+  const steepVal = document.getElementById('c2SteepVal');
+  const derivBar = document.getElementById('c2DerivBar');
+
+  let connectors = [];
+  let viewCenterX = 0, viewScale = 6;
+
+  function toPx(x,y){
+    return [ (x-viewCenterX)/viewScale * (W/2) + W/2, H/2 - y*(H/2)/1.6 ];
+  }
+
+  function connectorY(x, xc, w){
+    return Math.tanh((x-xc)/w);
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    ctx.strokeStyle = '#eef1ee';
+    ctx.lineWidth = 1;
+    const gridStep = viewScale > 40 ? 10 : (viewScale>15?5:2);
+    ctx.beginPath();
+    const xStart = Math.floor((viewCenterX-viewScale)/gridStep)*gridStep;
+    for(let gx=xStart; gx<=viewCenterX+viewScale; gx+=gridStep){
+      const [px] = toPx(gx,0);
+      ctx.moveTo(px,0); ctx.lineTo(px,H);
+    }
+    ctx.stroke();
+
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--top').trim();
+    ctx.beginPath();
+    let [x0,y0] = toPx(viewCenterX-viewScale,1); ctx.moveTo(x0,y0);
+    let [x1,y1] = toPx(viewCenterX+viewScale,1); ctx.lineTo(x1,y1);
+    ctx.stroke();
+
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--bot').trim();
+    ctx.beginPath();
+    [x0,y0] = toPx(viewCenterX-viewScale,-1); ctx.moveTo(x0,y0);
+    [x1,y1] = toPx(viewCenterX+viewScale,-1); ctx.lineTo(x1,y1);
+    ctx.stroke();
+
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--connector').trim();
+    ctx.lineWidth = 1.8;
+    connectors.forEach(c=>{
+      ctx.beginPath();
+      const steps = 240;
+      const lo = viewCenterX-viewScale, hi = viewCenterX+viewScale;
+      for(let i=0;i<=steps;i++){
+        const x = lo + (hi-lo)*i/steps;
+        const y = connectorY(x, c.xc, c.w);
+        const [px,py] = toPx(x,y);
+        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+    });
+
+    connectors.forEach(c=>{
+      const [px,py] = toPx(c.xc, 0);
+      ctx.fillStyle = '#8b9791';
+      ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2); ctx.fill();
+    });
+  }
+
+  function updateStats(){
+    countVal.textContent = connectors.length;
+    if(connectors.length===0){
+      xkVal.textContent='—'; wkVal.textContent='—'; steepVal.textContent='—';
+      derivBar.style.width='2%';
+      return;
+    }
+    const last = connectors[connectors.length-1];
+    xkVal.textContent = last.xc.toFixed(1);
+    wkVal.textContent = last.w.toFixed(3);
+    const steep = 1/last.w;
+    steepVal.textContent = '\u2248 '+steep.toFixed(1);
+    const pct = Math.min(96, 8 + steep*4);
+    derivBar.style.width = pct+'%';
+  }
+
+  document.getElementById('c2AddBtn').addEventListener('click', ()=>{
+    const k = connectors.length+1;
+    const xc = 3 + 4*k;
+    const w = 1/(1+0.55*k);
+    connectors.push({xc, w});
+    updateStats();
+    viewCenterX = xc;
+    viewScale = Math.max(3, w*10);
+    draw();
+  });
+
+  document.getElementById('c2JumpBtn').addEventListener('click', ()=>{
+    if(connectors.length===0) return;
+    const last = connectors[connectors.length-1];
+    viewCenterX = last.xc;
+    viewScale = Math.max(3, last.w*10);
+    draw();
+  });
+
+  document.getElementById('c2ResetViewBtn').addEventListener('click', ()=>{
+    if(connectors.length===0){ viewCenterX=0; viewScale=6; draw(); return; }
+    const maxX = connectors[connectors.length-1].xc;
+    viewCenterX = maxX/2;
+    viewScale = maxX/2 + 5;
+    draw();
+  });
+
+  document.getElementById('c2ResetBtn').addEventListener('click', ()=>{
+    connectors = [];
+    viewCenterX = 0; viewScale = 6;
+    updateStats();
+    draw();
+  });
+
+  let dragging=false, lastX=0;
+  canvas.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener('pointerup', ()=> dragging=false);
+  canvas.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx = e.clientX-lastX; lastX=e.clientX;
+    viewCenterX -= dx * (2*viewScale/W);
+    draw();
+  });
+  canvas.addEventListener('wheel', e=>{
+    e.preventDefault();
+    viewScale *= (e.deltaY<0 ? 0.85 : 1/0.85);
+    viewScale = Math.max(0.3, viewScale);
+    draw();
+  }, {passive:false});
+
+  updateStats();
+  draw();
+})();
+
+</script>
+
+</body>
+</html>
